@@ -75,9 +75,9 @@ depends on the Rents_ and on the Buildings_.
 Constraints
 -----------
 The constraints on the model are written in natural language. Each constraint
-has a given name.
+has a given name. There are about 40 constraints in the model.
 
-.. tabularcolumns:: |C|C|
+.. .... tabularcolumns:: |C|C|
 
 .. list-table:: Examples of constraints
     :widths: 15, 85
@@ -97,21 +97,56 @@ has a given name.
           tutor, apart in prestige residences where this rule does not
           apply.
 
+The goal is to convert to express these constraints in a an operation model,
+namely using the OCL language.
 
-.. literalinclude:: ../src/CyberResidencesOCL.use
-    :linenos:
-    :emphasize-lines: 12,20-30
+USE OCL Specification
+---------------------
+
+The `USE OCL`_ tool allows to express a full specification. Such a
+textual specification contains in a same file:
+
+* the structural specification.
+    This is the equivalent of class diagrams but expressed using a simple
+    textual notation. Instead of written ``A`` in a box as in a UML class
+    diagram, one write ``class A``. You can see below the class ``Residence``
+    translated in USE OCL::
+
+                class Residence
+                attributes
+                    name     : String
+                    floorMin : Integer
+                    floorMax : Integer
+                    category : Category
+                    maxNbOfFreeUnits : Integer -- @derived
+                    avgRate : Real             -- @derived
+                end
+
+* the constraint specifications.
+    All the constraints can then be written in a dialect of OCL. Only a
+    few keywords change with respect to OCL.
+
+.. note::
+
+    The details of the USE OCL language can be found in the
+    `USE OCL documentation`_ and in the particular in the reference manual.
+
 
 .. attention::
 
-    The constraints have to be written in the OCL language with the
-    OCL USE tool (see `OCL USE`_ on http://ScribeTools.rtfd.org ).
+    TODO
 
 Tests
 -----
+
+.. attention::
+
+    TODO
+    @assert directive
 
 
 
 .. ............................................................................
 
-.. _`OCL USE`: http://scribetools.readthedocs.org/en/latest/useocl
+.. _`USE OCL`: http://scribetools.readthedocs.org/en/latest/useocl
+.. _`USE OCL documentation`: http://scribetools.readthedocs.org/en/latest/useocl/#documentation
