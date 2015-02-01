@@ -1,0 +1,117 @@
+CyberResidencesOCL
+==================
+
+This case study provides a UML model dealing with long-stay "*Residences*" such
+as university residences or so. The *model* represented by various class
+*diagrams*. Each diagram is providing information about the CyberResidence
+*system* and according to a different perspective.
+
+Overview
+--------
+The diagram below presents CyberResidences from a global perspective.
+This diagram does not show however the constraints. These constraints, or
+at least their location, will be presented in the context of each package.
+
+.. figure:: media/CyberResidences_FullView.png
+    :align: center
+
+In fact, the UML model has been split logically in three different packages:
+* Buildings_ package
+* Rents_ package
+* Rates_ package
+
+The diagram below shows the decomposition of the system in subsystems.
+Additionally the package 'States' contains examples of states for illustrating
+and or testing CyberResidences.
+
+.. figure:: media/CyberResidences_PackageView.png
+    :align: center
+
+Each package is described below separately.
+
+
+.. _Buildings:
+
+"Buildings" package
+-------------------
+The "Buildings" package describes residences from a rather physical
+perspective. Residences are made of rooms that are either bedrooms or
+bathrooms. This diagram shows not only these concepts but also lists
+the constraints associated with each class.
+
+.. figure:: media/Buildings_Constraints.png
+    :align: center
+
+
+
+.. _Rents:
+
+"Rents" package
+---------------
+The "Rents" package is basically answering "who is in the residence". A tenant
+pay for one or more rooms, but he or she may be responsible of a much larger
+group of residents. These residents all occupy a room rented from that tenant.
+This diagram shows not only these concepts but also lists the constraints
+associated with each class. The "Rents" package heavily depends on the
+Buildings_.
+
+.. figure:: media/Rents_Constraints.png
+    :align: center
+
+
+
+.. _Rates:
+
+"Rates" package
+---------------
+The "Rates" package is basically answering "how much are rents?". It is all
+about money, rates and discounts. The rate for a rent depends on various
+factors but in particular on the category of the residence. This package
+depends on the Rents_ and on the Buildings_.
+
+.. figure:: media/Rates_Constraints.png
+   :align: center
+
+Constraints
+-----------
+The constraints on the model are written in natural language. Each constraint
+has a given name.
+
+.. tabularcolumns:: |C|C|
+
+.. list-table:: Examples of constraints
+    :widths: 15, 85
+    :header-rows: 1
+    :stub-columns: 1
+
+    *
+        * Name
+        * Description
+    *
+        * adultMarried
+        * To be registered as married, resident must be adult.
+
+    *
+        * childTutored
+        * Resident that are less than 18 years old must have at least one
+          tutor, apart in prestige residences where this rule does not
+          apply.
+
+
+.. literalinclude:: ../src/CyberResidencesOCL.use
+    :linenos:
+    :emphasize-lines: 12,20-30
+
+.. attention::
+
+    The constraints have to be written in the OCL language with the
+    OCL USE tool (see `OCL USE`_ on http://ScribeTools.rtfd.org ).
+
+Tests
+-----
+
+
+
+.. ............................................................................
+
+.. _`OCL USE`: http://scribetools.readthedocs.org/en/latest/useocl

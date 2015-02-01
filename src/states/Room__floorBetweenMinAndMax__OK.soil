@@ -1,0 +1,7 @@
+-- @assert Room__floorBetweenMinAndMax OK
+
+-- context self : Room inv floorBetweenMinAndMax :
+-- Floor between minimum and maximum floors.
+
+-- open -q <BASE>.soil
+-- here some mutation code

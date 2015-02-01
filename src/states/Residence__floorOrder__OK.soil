@@ -1,0 +1,7 @@
+-- @assert Residence__floorOrder OK
+
+-- context self : Residence inv floorOrder :
+-- Order between floorMin and floorMax attributes.
+
+-- open -q <BASE>.soil
+-- here some mutation code
