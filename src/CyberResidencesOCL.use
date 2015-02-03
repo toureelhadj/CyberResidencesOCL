@@ -53,6 +53,45 @@ attributes
     isOnTheLanding : Boolean
 end
 
+class Bedroom < Room
+attributes
+    nbOfSingleBeds : Integer
+    nbOfDoubleBeds : Integer
+    isNonSmoking : Boolean
+    nbOfUnits : Integer -- @derived
+operations
+end
+
+
+
+class Person
+attributes
+    name : String
+    age : Integer
+    gender : Gender
+end
+
+class Resident < Person
+attributes
+    isSmoker: Boolean
+end
+
+class Tenant < Resident
+
+end
+
+class Rent
+attributes
+    discount : Real -- @derived
+    rate : Real -- @derived
+end
+
+class Discount
+attributes
+    percentage : Integer
+    label : String
+end
+
 -- TODO
 
 -- For association classes use the following syntax
@@ -528,4 +567,3 @@ constraints
 
 -- context Residence inv uniqueNumberApartForPrivateBathroom:
     -- All rooms have a distinct number, except private bathrooms.
-
