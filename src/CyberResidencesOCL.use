@@ -108,10 +108,11 @@ constraints
 -- Conditions for granting a discount "All Bathrooms Out Of Order" (ABOOO).
 -- Note Easy. Use 'one'. Should world with 'xxxPercentage'
 
--- context Rent inv aboooConditions:
+context Rent inv aboooConditions:
     -- A discount is given for bedrooms that have all bathrooms out of
     -- order. The label of this type of discount is 'BROOO50'. This
     -- rule does not apply in economy residences.
+    self.rentedBedrooms->
 
 
 -------------------------------------------------------------------------------
@@ -120,8 +121,9 @@ constraints
 -- Percentage of "ABOOO" discount according to residence category.
 -- Not Easy. Should work with the corresponding invariant 'xxxConditions'
 
--- context Discount inv aboooPercentage:
+context Discount inv aboooPercentage:
     -- ABOO discounts are equal to 50%.
+    self.percentage = 50
 
 
 -------------------------------------------------------------------------------
@@ -130,9 +132,9 @@ constraints
 -- Only adult married.
 -- Easy. Use 'implies'
 
--- context Resident inv adultMarried:
+context Resident inv adultMarried:
     -- To be registered as married, resident must be adult.
-
+    self.consort->notEmpty() implies self.age>=18
 
 -------------------------------------------------------------------------------
 --                                 adultTenant
@@ -140,8 +142,9 @@ constraints
 -- Tenants are adults.
 -- Easy
 
--- context Tenant inv adultTenant:
+context Tenant inv adultTenant:
     -- The minimal age to rent a bedroom is 18 years old.
+    self.age>=18
 
 
 -------------------------------------------------------------------------------
@@ -163,6 +166,7 @@ constraints
 
 -- context Bedroom inv atLeastABed:
     -- Bedrooms that are not out of order must have at least one bed.
+    not self.isOutOfOrder implies self.nbOfSingleBeds >= 1 or self.nbOfDoubleBeds >= 1
 
 
 -------------------------------------------------------------------------------
@@ -171,8 +175,9 @@ constraints
 -- At least one adult per room.
 -- Easy. Use 'implies'
 
--- context Bedroom inv atLeastOneAdult:
+context Bedroom inv atLeastOneAdult:   
     -- At least one adult must be presented in all occupied rooms.
+    self.isOutOfOrder implies self.occupants->exists(age>18)
 
 
 -------------------------------------------------------------------------------
@@ -182,8 +187,10 @@ constraints
 -- Easy
 
 
--- context Resident inv childNonSmoking:
+context Resident inv childNonSmoking:
     -- Children are always declared as non smoker.
+    pre : self.age<18 
+    post: self.isSmoker=false
 
 
 -------------------------------------------------------------------------------
@@ -204,8 +211,9 @@ constraints
 -- Limit of cumulated discounts.
 -- Easy. Use 'sum'
 
--- context Rent inv cumulatedDiscounts:
+context Rent inv cumulatedDiscounts:
     -- No room will have more that 70% of dicounts cumulated.
+    self.rentedBedrooms(discount)->sum()<=70
 
 
 -------------------------------------------------------------------------------
@@ -226,10 +234,10 @@ constraints
 -- Derivation of the attribute discount.
 -- Easy
 
--- context Rent inv deriveDiscount:
+context Rent inv deriveDiscount:
     -- The discount for a rent, is the rate of the bedroom multiplied
     -- by the sum of percentages of all discounts.
-
+    self.discount = self.rate * self.discounts(percentage)->sum()
 
 -------------------------------------------------------------------------------
 --                                 deriveFloor
@@ -237,11 +245,11 @@ constraints
 -- Derivation of the attribute floor.
 -- Easy
 
--- context Room inv deriveFloor:
+context Room inv deriveFloor:
     -- The floor number correspond to the first digits of the room
     -- number, where the last two digits are removed. For instance the
     -- room 634 is at the floor 6.
-
+    (self.number div 100) = self.floor
 
 -------------------------------------------------------------------------------
 --                             deriveIsOnTheLanding
@@ -249,9 +257,10 @@ constraints
 -- Derivation of isOnTheLanding attribute.
 -- Easy
 
--- context Bathroom inv deriveIsOnTheLanding:
+context Bathroom inv deriveIsOnTheLanding:
     -- A bathroom is said to be on the landing if it is not in a
     -- bedroom.
+    self.isOnTheLanding = self
 
 
 -------------------------------------------------------------------------------
@@ -308,7 +317,8 @@ constraints
 -- Domain of percentage attribute.
 -- Easy
 
--- context Discount inv domainPercentage:
+context Discount inv domainPercentage:
+    self.percentage<=100 å»Û
     -- The percentage is a value between 1 and 100.
 
 
