@@ -59,10 +59,7 @@ attributes
     nbOfDoubleBeds : Integer
     isNonSmoking : Boolean
     nbOfUnits : Integer -- @derived
-operations
 end
-
-
 
 class Person
 attributes
@@ -77,7 +74,8 @@ attributes
 end
 
 class Tenant < Resident
-
+attributes
+    paidRate : Real -- @derived
 end
 
 class Rent
@@ -92,16 +90,14 @@ attributes
     label : String
 end
 
--- TODO
-
--- For association classes use the following syntax
--- (see documentation for more details)
--- associationclass ... between
---     ...[...] role ...
---     ...[...] role ...
--- attributes
---     ...
--- end
+associationclass Rent
+between
+  Bedroom[1..*] role rented
+  Tenant[0..1] role tenant
+attributes
+    discount : Real -- @derived
+    rate : Real -- @derived
+end
 
 
 constraints
