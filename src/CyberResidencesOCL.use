@@ -84,19 +84,34 @@ attributes
     label : String
 end
 
-association IsMarried between
+association IsMarriedWith between
     Resident[0..1] role consort
     Resident[0..1]
 end
 
 association IsTutoredBy between
-	Resident[*] role tutors
-	Resident[0..2] role tutored
+	Resident[0..2] role tutors
+	Resident[*] role tutored
 end
 
 association IsInBedroom between
 	Bathroom[0..3] role bathrooms
 	Bedroom[0..1] role bedroom
+end
+
+association IsOccupiedBy between
+	Bedroom[1] role occupiedRoom
+	Resident[*] role occupants
+end
+
+composition ContainsRooms between
+    Residence[1] role residence
+    Room[*] role rooms
+end
+
+composition HasDiscounts between
+    Rent[1] role rent
+    Residence[*] role discounts
 end
 
 associationclass Rent
