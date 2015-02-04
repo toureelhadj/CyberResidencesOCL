@@ -281,10 +281,10 @@ context Room inv deriveFloor:
 -- Derivation of isOnTheLanding attribute.
 -- Easy
 
-context Bathroom inv deriveIsOnTheLanding:
+--context Bathroom inv deriveIsOnTheLanding:
     -- A bathroom is said to be on the landing if it is not in a
     -- bedroom.
-    self.isOnTheLanding = self
+   --if self.isOnTheLanding then endif
 
 
 -------------------------------------------------------------------------------
@@ -293,9 +293,10 @@ context Bathroom inv deriveIsOnTheLanding:
 -- Derivation of maxNbOfFreeUnits attribute.
 -- Easy
 
--- context Residence inv deriveMaxNbOfFreeUnits:
+context Residence inv deriveMaxNbOfFreeUnits:
     -- The maximum number of free units is equal to the maximum number
     -- of places in beds of all rooms of the residence.
+    self.maxNbOfFreeUnits = self.bedrooms(nbOfUnits)-> sum()
 
 
 -------------------------------------------------------------------------------
@@ -304,7 +305,7 @@ context Bathroom inv deriveIsOnTheLanding:
 -- Derivation of nbOfUnits attribute.
 -- Easy
 
--- context Bedroom inv deriveNbOfUnits:
+--context Bedroom inv deriveNbOfUnits:
     -- The number of units of a bedroom is the maximum number of
     -- people that can fit within the bedroom assuming that all places
     -- in all beds are full.
