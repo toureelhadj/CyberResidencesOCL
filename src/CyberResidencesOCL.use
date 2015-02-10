@@ -109,11 +109,6 @@ composition ContainsRooms between
     Room[*] role rooms
 end
 
-composition HasDiscounts between
-    Rent[1] role rent
-    Residence[*] role discounts
-end
-
 associationclass Rent
 between
   Bedroom[1..*] role rented
@@ -123,6 +118,10 @@ attributes
     rate : Real -- @derived
 end
 
+composition HasDiscounts between
+    Rent[1] role rent
+    Residence[*] role discounts
+end
 
 constraints
 
