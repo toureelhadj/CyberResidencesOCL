@@ -572,9 +572,10 @@ context Discount inv domainPercentage:
 -- Tutors are adults.
 -- Easy
 
--- context Resident inv tutorAdult:
+context Resident inv tutorAdult:
     -- A resident can not be the tutor of another resident if he or
     -- she is not an adult.
+    self.tutored->notEmpty() implies self.age>=18
 
 
 -------------------------------------------------------------------------------
