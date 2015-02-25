@@ -135,7 +135,10 @@ context Rent inv aboooConditions:
     -- A discount is given for bedrooms that have all bathrooms out of
     -- order. The label of this type of discount is 'BROOO50'. This
     -- rule does not apply in economy residences.
-    --self.rentedBedrooms->
+    Category::economy <> self.rentedBedrooms.residence.category
+    and self.rentedBedrooms.bathrooms->size() = self.rentedBedrooms.bathrooms.select(isOutOfOrder)->size()
+    and self.rentedBedrooms.bathrooms->size() > 0
+    implies self.discounts.one(disc | disc.label = 'BROOO50')
 
 
 -------------------------------------------------------------------------------
@@ -146,10 +149,7 @@ context Rent inv aboooConditions:
 
 context Discount inv aboooPercentage:
     -- ABOO discounts are equal to 50%.
-    Category::economy <> self.rentedBedrooms.residence.category
-    and self.rentedBedrooms.bathrooms->size() = self.rentedBedrooms.bathrooms.select(isOutOfOrder)->size()
-    and self.rentedBedrooms.bathrooms->size() > 0
-    implies self.discounts.one(disc | disc.label = 'BROOO50')
+    self.label = 'BROOO50' implies self.percentage = 50
 
 
 -------------------------------------------------------------------------------
@@ -179,10 +179,10 @@ context Tenant inv adultTenant:
 -- Invariant about all bathrooms for 'prestige' residence.
 -- Medium. use 'implies'.
 
--- context Residence inv allPrestigeBathrooms:
+context Residence inv allPrestigeBathrooms:
     -- Residences of category prestige have in each bedroom at least
     -- the same number of bathroom that the number of beds.
-
+    self.category = Category::prestige implies self.bedrooms()->forAll(bathrooms->size() >= (nbOfSingleBeds + nbOfDoubleBeds))
 
 -------------------------------------------------------------------------------
 --                                 atLeastABed
@@ -248,11 +248,12 @@ context Rent inv cumulatedDiscounts:
 -- Derivation of the avgRate attribute.
 -- Medium
 
--- context Residence inv deriveAvgRate:
+context Residence inv deriveAvgRate:
     -- The average rate of a residence is the total revenue of the
     -- residence divided by the number of occupants. Tutored residents
     -- do not count in this rule.
-
+    self.avgRate = self.bedrooms().rate->sum() / self.bedrooms().occupants->select(tutors->notEmpty())->size()
+    
 
 -------------------------------------------------------------------------------
 --                                deriveDiscount
@@ -263,7 +264,7 @@ context Rent inv cumulatedDiscounts:
 context Rent inv deriveDiscount:
     -- The discount for a rent, is the rate of the bedroom multiplied
     -- by the sum of percentages of all discounts.
-    self.discount = self.rate * self.discounts(percentage)->sum()
+    self.discount = self.rentedBedrooms.rate * self.discounts.percentage->sum() / 100
 
 -------------------------------------------------------------------------------
 --                                 deriveFloor
@@ -283,10 +284,10 @@ context Room inv deriveFloor:
 -- Derivation of isOnTheLanding attribute.
 -- Easy
 
---context Bathroom inv deriveIsOnTheLanding:
+context Bathroom inv deriveIsOnTheLanding:
     -- A bathroom is said to be on the landing if it is not in a
     -- bedroom.
-   --if self.isOnTheLanding then endif
+    self.isOnTheLanding implies self.bedroom->isEmpty()
 
 
 -------------------------------------------------------------------------------
@@ -298,7 +299,7 @@ context Room inv deriveFloor:
 context Residence inv deriveMaxNbOfFreeUnits:
     -- The maximum number of free units is equal to the maximum number
     -- of places in beds of all rooms of the residence.
-    self.maxNbOfFreeUnits = self.bedrooms(nbOfUnits)-> sum()
+    self.maxNbOfFreeUnits = self.bedrooms.nbOfUnits-> sum()
 
 
 -------------------------------------------------------------------------------
