@@ -135,7 +135,7 @@ context Rent inv aboooConditions:
     -- A discount is given for bedrooms that have all bathrooms out of
     -- order. The label of this type of discount is 'BROOO50'. This
     -- rule does not apply in economy residences.
-    self.rentedBedrooms->
+    --self.rentedBedrooms->
 
 
 -------------------------------------------------------------------------------
@@ -146,7 +146,10 @@ context Rent inv aboooConditions:
 
 context Discount inv aboooPercentage:
     -- ABOO discounts are equal to 50%.
-    self.percentage = 50
+    Category::economy <> self.rentedBedrooms.residence.category
+    and self.rentedBedrooms.bathrooms->size() = self.rentedBedrooms.bathrooms.select(isOutOfOrder)->size()
+    and self.rentedBedrooms.bathrooms->size() > 0
+    implies self.discounts.one(disc | disc.label = 'BROOO50')
 
 
 -------------------------------------------------------------------------------
@@ -200,7 +203,7 @@ context Tenant inv adultTenant:
 
 context Bedroom inv atLeastOneAdult:   
     -- At least one adult must be presented in all occupied rooms.
-    self.isOutOfOrder implies self.occupants->exists(age>18)
+    self.occupants->notEmpty() implies self.occupants->exists(age>=18)
 
 
 -------------------------------------------------------------------------------
@@ -212,8 +215,7 @@ context Bedroom inv atLeastOneAdult:
 
 context Resident inv childNonSmoking:
     -- Children are always declared as non smoker.
-    pre : self.age<18 
-    post: self.isSmoker=false
+    self.age<18 implies not self.isSmoker
 
 
 -------------------------------------------------------------------------------
@@ -226,6 +228,7 @@ context Resident inv childNonSmoking:
     -- Resident that are less than 18 years old must have at least one
     -- tutor, apart in prestige residences where this rule does not
     -- apply.
+    self.age < 18 and self.occupiedRoom.residence.category <> Category::prestige implies self.tutors->size() > 0
 
 
 -------------------------------------------------------------------------------
@@ -236,7 +239,7 @@ context Resident inv childNonSmoking:
 
 context Rent inv cumulatedDiscounts:
     -- No room will have more that 70% of dicounts cumulated.
-    self.rentedBedrooms(discount)->sum()<=70
+    self.discounts.percentage->sum() <= 70
 
 
 -------------------------------------------------------------------------------
