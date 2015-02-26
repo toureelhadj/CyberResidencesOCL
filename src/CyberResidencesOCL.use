@@ -32,10 +32,10 @@ operations
     bedrooms() : Set(Bedroom) =
         rooms->select(oclIsKindOf(Bedroom))->oclAsType(Set(Bedroom))
     -- Set of useful bedrooms.
-    usefulBedrooms() : Set(Bedroom)
+    usefulBedrooms() : Set(Bedroom)=
         bedrooms()->select(not isOutOfOrder)
     -- Set of residence bathrooms
-    bathrooms() : Set(Bathroom)
+    bathrooms() : Set(Bathroom)=
         rooms->select(oclIsKindOf(Bathroom))->oclAsType(Set(Bathroom))
 end
 
@@ -504,10 +504,10 @@ context Bedroom inv oooBedroomsNotRented:
 
 context Bathroom inv oooIfPrestige:
     -- In prestige residences, it is not acceptable to rent bedrooms
-    -- with bathrooms that are out of order. So if a bathrom is marked
+    -- with bathrooms that are out of order. So if a bathroom is marked
     -- as out of order, the corresponding bedroom is also marked as
     -- out of order.
-    self.residence.category = Category::prestige and self.isOutOfOrder implies self.bedroom.isOutOfOrder
+    self.residence.category = Category::prestige and self.isOutOfOrder implies self.bedroom.isOutOfOrder and not self.isOnTheLanding
 
 
 -------------------------------------------------------------------------------
