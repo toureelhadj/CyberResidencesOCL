@@ -5,3 +5,8 @@
 
 -- open -q <BASE>.soil
 -- here some mutation code
+
+! create G228_r1_303 : Room
+! set G228_r1_303.number := 303
+! set G228_r1_303.floor := 2
+! set G228_r1_303.isOutOfOrder := false
