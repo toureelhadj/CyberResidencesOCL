@@ -4,7 +4,6 @@
 
 model CyberResidences
 
-
 enum Category {
     economy,
     standard,
@@ -12,12 +11,10 @@ enum Category {
     prestige
 }
 
-
 enum Gender {
     male,
     female
 }
-
 
 class Residence
 attributes
@@ -28,7 +25,7 @@ attributes
     maxNbOfFreeUnits : Integer -- @derived
     avgRate : Real             -- @derived
 operations
-    -- Set of bedrooms of the residence.
+    -- Set of bedrooms of the residence
     bedrooms() : Set(Bedroom) =
         rooms->select(oclIsKindOf(Bedroom))->oclAsType(Set(Bedroom))
     -- Set of useful bedrooms.
@@ -39,14 +36,12 @@ operations
         rooms->select(oclIsKindOf(Bathroom))->oclAsType(Set(Bathroom))
 end
 
-
 class Room
 attributes
     number : Integer
     floor : Integer -- @derived
     isOutOfOrder : Boolean
 end
-
 
 class Bathroom < Room
 attributes
@@ -55,72 +50,72 @@ end
 
 class Bedroom < Room
 attributes
-    nbOfSingleBeds : Integer
-    nbOfDoubleBeds : Integer
-    isNonSmoking : Boolean
-    nbOfUnits : Integer -- @derived
+	nbOfSingleBeds : Integer
+	nbOfDoubleBeds : Integer
+	rate : Real
+	isNonSmoking : Boolean
+	nbOfUnits : Integer -- @derived
 end
 
 class Person
 attributes
-    name : String
-    age : Integer
-    gender : Gender
+	name : String
+	age : Integer
+	gender : Gender
 end
 
 class Resident < Person
 attributes
-    isSmoker: Boolean
+	isSmoker : Boolean
 end
 
 class Tenant < Resident
 attributes
-    paidRate : Real -- @derived
+	paidRate : Real -- @derived
 end
 
 class Discount
 attributes
-    percentage : Integer
-    label : String
-end
-
-association IsMarriedWith between
-    Resident[0..1] role consort
-    Resident[0..1]
-end
-
-association IsTutoredBy between
-	Resident[0..2] role tutors
-	Resident[*] role tutored
-end
-
-association IsInBedroom between
-	Bathroom[0..3] role bathrooms
-	Bedroom[0..1] role bedroom
-end
-
-association IsOccupiedBy between
-	Bedroom[1] role occupiedRoom
-	Resident[*] role occupants
+	percentage : Integer
+	label : String
 end
 
 composition ContainsRooms between
-    Residence[1] role residence
-    Room[*] role rooms
+  Residence[1] role residence
+  Room[*] role rooms
 end
 
-associationclass Rent
-between
-  Bedroom[1..*] role rented
-  Tenant[0..1] role tenant
-attributes
-    discount : Real -- @derived
-    rate : Real -- @derived
+association IsInBedroom between
+  Bathroom[0..3] role bathrooms
+  Bedroom[0..1] role bedroom
+end
+
+association IsTutoredBy between
+  Resident[*] role tutors
+  Resident[0..2] role tutored
+end
+
+association IsOccupiedBy between
+  Bedroom[1] role occupiedRoom
+  Resident[*] role occupants
+end
+
+association IsMarriedWith between
+  Resident[0..1] role consort
+  Resident[0..1]
+end
+
+associationclass Rent between
+     Bedroom[1..*] role rentedBedrooms
+     Tenant[0..1] role tenant
+ attributes
+     discount : Real -- @derived
+	 rate : Real -- @derived
 end
 
 composition HasDiscounts between
-    Rent[1] role rent
-    Residence[*] role discounts
+     Rent[1] role rent
+     Discount[*] role discounts
 end
 
 constraints
@@ -190,7 +185,7 @@ context Residence inv allPrestigeBathrooms:
 -- At least one bed for useful bedrooms.
 -- Easy. Use implies.
 
--- context Bedroom inv atLeastABed:
+context Bedroom inv atLeastABed:
     -- Bedrooms that are not out of order must have at least one bed.
     not self.isOutOfOrder implies self.nbOfSingleBeds >= 1 or self.nbOfDoubleBeds >= 1
 
@@ -224,7 +219,7 @@ context Resident inv childNonSmoking:
 -- Child tutored.
 -- Medium
 
--- context Resident inv childTutored:
+context Resident inv childTutored:
     -- Resident that are less than 18 years old must have at least one
     -- tutor, apart in prestige residences where this rule does not
     -- apply.
@@ -299,7 +294,7 @@ context Bathroom inv deriveIsOnTheLanding:
 context Residence inv deriveMaxNbOfFreeUnits:
     -- The maximum number of free units is equal to the maximum number
     -- of places in beds of all rooms of the residence.
-    self.maxNbOfFreeUnits = self.bedrooms.nbOfUnits-> sum()
+    self.maxNbOfFreeUnits = self.bedrooms().nbOfUnits-> sum()
 
 
 -------------------------------------------------------------------------------
@@ -398,7 +393,7 @@ context Residence inv floorOrder:
 -- Uniqueness of labels with respect to rents.
 -- Easy. Use 'unique'
 
--- context Rent inv labelUnique:
+context Rent inv labelUnique:
     -- All discounts associated to a rent have distinct labels.
     self.discounts->isUnique(label)
 
@@ -471,7 +466,7 @@ context Bedroom inv noEmptyRentedBedrooms:
 context Bedroom inv noSquaters:
     -- Occupants must be exclusively in rooms that are rented by
     -- somebody.
-    self.rentedBedrooms->notEmpty() implies self.tenant->notEmpty()
+    self.occupants->notEmpty() implies self.tenant->notEmpty()
 
 
 -------------------------------------------------------------------------------
