@@ -12,6 +12,6 @@
 ! set G228_r2_101.isOutOfOrder := false
 ! set G228_r2_101.nbOfSingleBeds := 0
 ! set G228_r2_101.nbOfDoubleBeds := 2
-! set G228_r2_101.rate := 15,0
+! set G228_r2_101.rate := 15
 ! set G228_r2_101.isNonSmoking := true
 ! set G228_r2_101.nbOfUnits := 2
