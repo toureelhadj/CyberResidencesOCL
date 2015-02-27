@@ -17,7 +17,7 @@
 ! create G228_r2_101 : Bedroom
 ! set G228_r2_101.number := 101
 ! set G228_r2_101.floor := 1
-! set G228_r2_101.isOutOfOrder := true
+! set G228_r2_101.isOutOfOrder := false
 ! set G228_r2_101.nbOfSingleBeds := 2
 ! set G228_r2_101.nbOfDoubleBeds := 2
 ! set G228_r2_101.rate := 15
@@ -34,12 +34,13 @@
 ! create G228_b2 : Bathroom
 ! set G228_b2.number := 102
 ! set G228_b2.floor := 1
-! set G228_b2.isOutOfOrder := true
+! set G228_b2.isOutOfOrder := false
 ! set G228_b2.isOnTheLanding := false
 
 !insert (G228_r2,G228_r2_101) into ContainsRooms
 !insert (G228_r2,G228_b2) into ContainsRooms
 !insert (G228_b2,G228_r2_101) into IsInBedroom
+! insert (G228_r2_101,G228_paul) into IsOccupiedBy
 
 !create G228_rent2 : Rent between(G228_r2_101,G228_paul)
 ! set G228_rent2.discount := 10
