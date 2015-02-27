@@ -25,17 +25,17 @@
 ! set G228_r2_101.nbOfUnits := 6
 
 ! create G228_r2_104 : Bedroom
-! set G228_r2_101.number := 104
-! set G228_r2_101.floor := 1
-! set G228_r2_101.isOutOfOrder := true
-! set G228_r2_101.nbOfSingleBeds := 0
-! set G228_r2_101.nbOfDoubleBeds := 2
-! set G228_r2_101.rate := 15
-! set G228_r2_101.isNonSmoking := true
-! set G228_r2_101.nbOfUnits := 4
+! set G228_r2_104.number := 104
+! set G228_r2_104.floor := 1
+! set G228_r2_104.isOutOfOrder := true
+! set G228_r2_104.nbOfSingleBeds := 0
+! set G228_r2_104.nbOfDoubleBeds := 2
+! set G228_r2_104.rate := 15
+! set G228_r2_104.isNonSmoking := true
+! set G228_r2_104.nbOfUnits := 4
 
 ! create G228_b2 : Bathroom
-! set G228_b2.number := 102
+! set G228_b2.number := 101
 ! set G228_b2.floor := 1
 ! set G228_b2.isOutOfOrder := true
 ! set G228_b2.isOnTheLanding := false
