@@ -23,9 +23,10 @@
 ! set G228_r2_101.isNonSmoking := true
 ! set G228_r2_101.nbOfUnits := 2
 ! create G228_b2 : Bathroom
-! set G228_b2.number := 102
+! set G228_b2.number := 101
 ! set G228_b2.floor := 1
 ! set G228_b2.isOutOfOrder := true
 ! set G228_b2.isOnTheLanding := false
 !insert (G228_r2,G228_r2_101) into ContainsRooms
+!insert (G228_r2,G228_b2) into ContainsRooms
 !insert (G228_b2,G228_r2_101) into IsInBedroom
