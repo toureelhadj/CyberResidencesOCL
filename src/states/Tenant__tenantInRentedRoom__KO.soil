@@ -6,3 +6,37 @@
 -- open -q <BASE>.soil
 -- here some mutation code
 
+! create G228_r1 : Residence
+! set G228_r1.name := 'ouest'
+! set G228_r1.floorMin := 1
+! set G228_r1.floorMax := 3
+! set G228_r1.category := #economy
+! set G228_r1.maxNbOfFreeUnits := 10
+! set G228_r1.avgRate := 2
+! create G228_r2 : Residence
+! set G228_r2.name := 'east'
+! set G228_r2.floorMin := 1
+! set G228_r2.floorMax := 2
+! set G228_r2.category := #prestige
+! set G228_r2.maxNbOfFreeUnits := 6
+! set G228_r2.avgRate := 3
+! create G228_r1_303 : Room
+! set G228_r1_303.number := 303
+! set G228_r1_303.floor := 2
+! set G228_r1_303.isOutOfOrder := false
+! create G228_paul : Resident
+! set G228_paul.name := 'Paul Bismut'
+! set G228_paul.age := 26
+! set G228_paul.gender := #male
+! set G228_paul.isSmoker := true
+! create G228_rent2 : Rent between(G228_r2_101,G228_paul)
+! set G228_rent2.discount := 10
+! set G228_rent2.rate := 10,0
+! set G228_rent2.rentedBedrooms := G228_r2_101
+! set G228_rent2.tenant := G228_paul
+! insert (G228_r1,G228_r1_303) into ContainsRooms
+! insert (G228_r2,G228_r1_304) into ContainsRooms
+! insert (G228_r3,G228_r1_306) into ContainsRooms
+! insert (G228_b1,G228_r2_101) into IsInBedroom
+! insert (G228_b2,G228_r2_101) into IsInBedroom
+! insert (G228_r1_303,G228_paul) into IsOccupiedBy
