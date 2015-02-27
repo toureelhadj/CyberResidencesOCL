@@ -5,3 +5,90 @@
 
 -- open -q <BASE>.soil
 -- here some mutation code
+
+! create G228_r1 : Residence
+! set G228_r1.name := 'ouest'
+! set G228_r1.floorMin := 1
+! set G228_r1.floorMax := 3
+! set G228_r1.category := #economy
+! set G228_r1.maxNbOfFreeUnits := 10
+! set G228_r1.avgRate := 2
+! create G228_r2 : Residence
+! set G228_r2.name := 'east'
+! set G228_r2.floorMin := 1
+! set G228_r2.floorMax := 2
+! set G228_r2.category := #prestige
+! set G228_r2.maxNbOfFreeUnits := 6
+! set G228_r2.avgRate := 3
+! create G228_r1_303 : Room
+! set G228_r1_303.number := 303
+! set G228_r1_303.floor := 2
+! set G228_r1_303.isOutOfOrder := false
+! create G228_r1_306 : Bedroom
+! set G228_r1_306.number := 306
+! set G228_r1_306.floor := 3
+! set G228_r1_306.isOutOfOrder := false
+! set G228_r1_306.nbOfSingleBeds := 2
+! set G228_r1_306.nbOfDoubleBeds := 1
+! set G228_r1_306.rate := 20,0
+! set G228_r1_306.isNonSmoking := false
+! set G228_r1_306.nbOfUnits := 3
+! create G228_r2_101 : Bedroom
+! set G228_r2_101.number := 101
+! set G228_r2_101.floor := 1
+! set G228_r2_101.isOutOfOrder := true
+! set G228_r2_101.nbOfSingleBeds := 2
+! set G228_r2_101.nbOfDoubleBeds := 2
+! set G228_r2_101.rate := 15,0
+! set G228_r2_101.isNonSmoking := true
+! set G228_r2_101.nbOfUnits := 2
+! create G228_paul : Resident
+! set G228_paul.name := 'Paul Bismut'
+! set G228_paul.age := 26
+! set G228_paul.gender := #male
+! set G228_paul.isSmoker := true
+! create G228_paul : Person
+! set G228_paul.name := 'Paul Bismut'
+! set G228_paul.age := 26
+! set G228_paul.gender := #male
+! create G228_paul : Tenant
+! set G228_paul.name := 'Paul Bismut'
+! set G228_paul.age := 26
+! set G228_paul.gender := #male
+! set G228_paul.isSmoker := true
+! set G228_paul.paidRate := 70
+! create G228_d1 : Discount
+! set G228_d1.percentage := 15
+! set G228_d1.label := d15
+! create G228_d2 : Discount
+! set G228_d2.percentage := 20
+! set G228_d2.label := d20
+! create G228_d3 : Discount
+! set G228_d3.percentage := 25
+! set G228_d3.label := d25
+! create G228_b1 : Bathroom
+! set G228_b1.number := 101
+! set G228_b1.floor := 1
+! set G228_b1.isOutOfOrder := false
+! set G228_b1.isOnTheLanding := true
+! create G228_b2 : Bathroom
+! set G228_b2.number := 102
+! set G228_b2.floor := 1
+! set G228_b2.isOutOfOrder := true
+! set G228_b2.isOnTheLanding := false
+! create G228_rent1 : Rent between(G228_r1_306,G228_keila)
+! set G228_rent1.discount := 25
+! set G228_rent1.rate := 120
+! set G228_rent1.rentedBedrooms := G228_r1_306
+! set G228_rent1.tenant := G228_keila
+! create G228_rent2 : Rent between(G228_r2_101,G228_paul)
+! set G228_rent2.discount := 10
+! set G228_rent2.rate := 10,0
+! set G228_rent2.rentedBedrooms := G228_r2_101
+! set G228_rent2.tenant := G228_paul
+! insert (G228_r1,G228_r1_303) into ContainsRooms
+! insert (G228_r2,G228_r1_304) into ContainsRooms
+! insert (G228_r3,G228_r1_306) into ContainsRooms
+! insert (G228_b1,G228_r2_101) into IsInBedroom
+! insert (G228_b2,G228_r2_101) into IsInBedroom
+! insert (G228_r2_101,G228_paul) into IsOccupiedBy
