@@ -13,19 +13,23 @@
 ! set G228_r2.category := #economy
 ! set G228_r2.maxNbOfFreeUnits := 10
 ! set G228_r2.avgRate := 2
+
 ! create G228_r2_101 : Bedroom
 ! set G228_r2_101.number := 101
 ! set G228_r2_101.floor := 1
 ! set G228_r2_101.isOutOfOrder := true
 ! set G228_r2_101.nbOfSingleBeds := 2
-! set G228_r2_101.nbOfDoubleBeds := 2
+! set G228_r2_101.nbOfDoubleBeds := 4
 ! set G228_r2_101.rate := 15
 ! set G228_r2_101.isNonSmoking := true
-! set G228_r2_101.nbOfUnits := 2
+! set G228_r2_101.nbOfUnits := 10
+
 ! create G228_b2 : Bathroom
 ! set G228_b2.number := 101
 ! set G228_b2.floor := 1
 ! set G228_b2.isOutOfOrder := true
 ! set G228_b2.isOnTheLanding := false
+
 !insert (G228_r2,G228_r2_101) into ContainsRooms
+!insert (G228_r2,G228_b2) into ContainsRooms
 !insert (G228_b2,G228_r2_101) into IsInBedroom

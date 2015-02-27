@@ -503,7 +503,7 @@ context Bathroom inv oooIfPrestige:
     -- with bathrooms that are out of order. So if a bathroom is marked
     -- as out of order, the corresponding bedroom is also marked as
     -- out of order.
-    self.residence.category = Category::prestige and self.isOutOfOrder implies self.bedroom.isOutOfOrder and not self.isOnTheLanding
+    (self.residence.category = Category::prestige and self.isOutOfOrder) implies self.bedroom.isOutOfOrder
 
 
 -------------------------------------------------------------------------------
