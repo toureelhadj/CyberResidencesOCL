@@ -83,4 +83,4 @@
 ! insert (G228_r3,G228_r1_306) into ContainsRooms			
 ! insert (G228_b1,G228_r2_101) into IsInBedroom			
 ! insert (G228_b2,G228_r2_101) into IsInBedroom			
-! insert (G228_r2_101,G228_paul) into IsOccupiedBy			
+! insert (G228_r2_101,G228_paul) into IsOccupiedBy
