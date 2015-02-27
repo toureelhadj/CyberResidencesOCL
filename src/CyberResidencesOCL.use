@@ -294,7 +294,8 @@ context Bathroom inv deriveIsOnTheLanding:
 context Residence inv deriveMaxNbOfFreeUnits:
     -- The maximum number of free units is equal to the maximum number
     -- of places in beds of all rooms of the residence.
-    self.maxNbOfFreeUnits = self.bedrooms().nbOfUnits-> sum()
+    (self.bedrooms()->isEmpty() implies self.maxNbOfFreeUnits = 0) and
+    (self.bedrooms()->notEmpty() implies self.maxNbOfFreeUnits = self.bedrooms().nbOfUnits-> sum())
 
 
 -------------------------------------------------------------------------------
